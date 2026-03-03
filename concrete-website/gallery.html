@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Project Gallery | Concrete Driveways, Patios & Walls | Concrete Pros IL</title>
+<meta name="description" content="View our concrete project gallery — driveways, stamped patios, sitting walls, and concrete pads across Crystal Lake, Woodstock, Cary, Algonquin & Lake in the Hills, IL. 500+ completed projects.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.concreteprosil.com/gallery.html">
+<meta property="og:title" content="Concrete Project Gallery | Concrete Pros IL — McHenry County">
+<meta property="og:description" content="Browse 500+ concrete projects in McHenry County IL — driveways, stamped patios, sitting walls, concrete pads. Crystal Lake, Woodstock, Cary, Algonquin & Lake in the Hills.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.concreteprosil.com/gallery.html">
+<meta name="geo.region" content="US-IL"><meta name="geo.placename" content="Crystal Lake, Illinois">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ImageGallery",
+  "name": "Concrete Pros IL Project Gallery",
+  "url": "https://www.concreteprosil.com/gallery.html",
+  "description": "Photo gallery of 500+ concrete projects completed across McHenry County, IL. Includes concrete driveway replacements, stamped concrete patios, sitting walls, and concrete slabs.",
+  "author": {
+    "@type": "LocalBusiness",
+    "name": "Concrete Pros IL",
+    "url": "https://www.concreteprosil.com/",
+    "telephone": "(815) 403-7233",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Crystal Lake",
+      "addressRegion": "IL",
+      "postalCode": "60014",
+      "addressCountry": "US"
+    }
+  }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+.gallery-grid-full{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.gallery-item{position:relative;overflow:hidden;border-radius:4px;aspect-ratio:4/3;cursor:pointer;background:var(--bg3)}
+.gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s ease}
+.gallery-item:hover img{transform:scale(1.06)}
+.gallery-overlay{position:absolute;inset:0;background:rgba(193,39,45,0);transition:background 0.3s;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.gallery-item:hover .gallery-overlay{background:rgba(193,39,45,0.85)}
+.gallery-label{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:0.1em;color:#fff;opacity:0;transform:translateY(10px);transition:all 0.3s}
+.gallery-sublabel{font-size:11px;color:rgba(255,255,255,0.8);letter-spacing:0.1em;text-transform:uppercase;opacity:0;transition:all 0.3s;transition-delay:0.05s}
+.gallery-item:hover .gallery-label,.gallery-item:hover .gallery-sublabel{opacity:1;transform:translateY(0)}
+.gallery-filter{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px}
+.gf-btn{padding:8px 18px;border:1.5px solid var(--border);border-radius:100px;font-size:13px;font-weight:600;color:var(--mid);background:var(--white);cursor:pointer;transition:all var(--t)}
+.gf-btn:hover,.gf-btn.active{background:var(--red);border-color:var(--red);color:#fff}
+.gallery-item[data-cat]{transition:all 0.4s ease}
+.gallery-item.hidden{display:none}
+@media(max-width:768px){.gallery-grid-full{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.gallery-grid-full{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div data-nav></div>
+<div class="page-hero">
+  <img src="images/driveway1.jpg" alt="Concrete project gallery" class="page-hero-img">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">Home</a><span class="breadcrumb-sep">›</span><span>Gallery</span></div>
+    <div class="tag" style="color:rgba(255,255,255,0.5)">500+ Completed Projects</div>
+    <h1>Project Gallery</h1>
+    <p>Real concrete projects completed across Crystal Lake, Woodstock, Cary, Algonquin, and Lake in the Hills, IL.</p>
+  </div>
+</div>
+<section class="section">
+<div class="container">
+  <div class="gallery-filter reveal">
+    <button class="gf-btn active" onclick="filterGallery('all',this)">All Projects</button>
+    <button class="gf-btn" onclick="filterGallery('driveway',this)">Driveways</button>
+    <button class="gf-btn" onclick="filterGallery('patio',this)">Patios</button>
+    <button class="gf-btn" onclick="filterGallery('stamped',this)">Stamped Concrete</button>
+    <button class="gf-btn" onclick="filterGallery('wall',this)">Sitting Walls</button>
+    <button class="gf-btn" onclick="filterGallery('pad',this)">Concrete Pads</button>
+  </div>
+  <div class="gallery-grid-full" id="galleryGrid">
+    <div class="gallery-item reveal" data-cat="driveway"><img src="images/driveway1.jpg" alt="Concrete driveway replacement Crystal Lake IL" loading="lazy"><div class="gallery-overlay"><div class="gallery-label">Driveway Replacement</div><div class="gallery-sublabel">Crystal Lake, IL</div></div></div>
+    <div class="gallery-item reveal delay-1" data-cat="stamped"><img src="images/stamped1.jpg" alt="Stamped concrete patio Woodstock IL" loading="lazy"><div class="gallery-overlay"><div class="gallery-label">Stamped Patio</div><div class="gallery-sublabel">Woodstock, IL</div></div></div>
+    <div class="gallery-item reveal delay-2" data-cat="patio"><img src="images/patio1.jpg" alt="Concrete patio installation Algonquin IL" loading="lazy"><div class="gallery-overlay"><div class="gallery-label">Concrete Patio</div><div class="gallery-sublabel">Algonquin, IL</div></div></div>
+    <div class="gallery-item reveal" data-cat="wall"><img src="images/wall1.jpg" alt="Sitting wall installation Cary IL" loading="lazy"><div class="gallery-overlay"><div class="gallery-label">Sitting Wall</div><div class="gallery-sublabel">Cary, IL</div></div></div>
+    <div class="gallery-item reveal delay-1" data-cat="pad"><img src="images/slab1.jpg" alt="Concrete pad Lake in the Hills IL" loading="lazy"><div class="gallery-overlay"><div class="gallery-label">Concrete Pad</div><div class="gallery-sublabel">Lake in the Hills, IL</div></div></div>
+    <div class="gallery-item reveal delay-2" data-cat="stamped"><img src="images/stamped-driveway.jpg" alt="Stamped concrete driveway Crystal Lake IL" loading="lazy"><div class="gallery-overlay"><div class="gallery-label">Stamped Driveway</div><div class="gallery-sublabel">Crystal Lake, IL</div></div></div>
+    <div class="gallery-item reveal" data-cat="driveway"><img src="images/gallery1.jpg" alt="Concrete driveway Woodstock IL" loading="lazy"><div class="gallery-overlay"><div class="gallery-label">Driveway Replacement</div><div class="gallery-sublabel">Woodstock, IL</div></div></div>
+    <div class="gallery-item reveal delay-1" data-cat="patio"><img src="images/gallery2.jpg" alt="Concrete patio Cary IL" loading="lazy"><div class="gallery-overlay"><div class="gallery-label">Concrete Patio</div><div class="gallery-sublabel">Cary, IL</div></div></div>
+    <div class="gallery-item reveal delay-2" data-cat="wall"><img src="images/gallery3.jpg" alt="Retaining wall Algonquin IL" loading="lazy"><div class="gallery-overlay"><div class="gallery-label">Retaining Wall</div><div class="gallery-sublabel">Algonquin, IL</div></div></div>
+    <div class="gallery-item reveal" data-cat="pad"><img src="images/gallery4.jpg" alt="Shed pad Cary IL" loading="lazy"><div class="gallery-overlay"><div class="gallery-label">Shed Pad</div><div class="gallery-sublabel">Cary, IL</div></div></div>
+    <div class="gallery-item reveal delay-1" data-cat="stamped"><img src="images/gallery5.jpg" alt="Stamped driveway Lake in the Hills IL" loading="lazy"><div class="gallery-overlay"><div class="gallery-label">Stamped Driveway</div><div class="gallery-sublabel">Lake in the Hills, IL</div></div></div>
+    <div class="gallery-item reveal delay-2" data-cat="driveway"><img src="images/construction1.jpg" alt="Concrete driveway pour McHenry County IL" loading="lazy"><div class="gallery-overlay"><div class="gallery-label">Driveway Pour</div><div class="gallery-sublabel">McHenry County, IL</div></div></div>
+  </div>
+  <div style="text-align:center;margin-top:48px;padding:40px;background:var(--bg2);border:2px dashed var(--border-dark);border-radius:4px" class="reveal">
+    <p style="font-size:13px;color:var(--muted);margin-bottom:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase">Add Your Real Project Photos</p>
+    <p style="font-size:13px;color:var(--muted)">Replace the placeholder images above with your actual project photos. Recommended: 800×600px JPG files placed in the <code style="background:var(--bg3);padding:2px 6px;border-radius:3px">images/</code> folder.</p>
+  </div>
+</div>
+</section>
+<div class="cta-bar"><div class="container"><div><h2>Ready for Your Project?</h2><p>Free estimates · McHenry County's trusted concrete contractor · 24hr response</p></div><div class="cta-bar-actions"><div class="cta-bar-phone">(815) 403-7233</div><a href="contact.html" class="btn btn-white-outline">Get a Free Quote →</a></div></div></div>
+<div data-footer></div>
+<script src="shared.js"></script>
+<script>
+function filterGallery(cat, btn) {
+  document.querySelectorAll('.gf-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.gallery-item').forEach(item => {
+    if(cat === 'all' || item.dataset.cat === cat) {
+      item.classList.remove('hidden');
+    } else {
+      item.classList.add('hidden');
+    }
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Live Project Map | Concrete Pros IL — 200+ McHenry County Projects</title>
+<meta name="description" content="Browse 200+ completed concrete projects across McHenry County, IL. Click any pin to see photos, project details and specs. Driveways, patios, garage floors, stamped concrete, sidewalks.">
+<link rel="canonical" href="https://www.concreteprosil.com/project-map.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+:root{--map-h:620px}
+.map-page-hero{background:var(--dark);padding:60px 0 0;position:relative;overflow:hidden}
+.map-page-hero::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 40px,rgba(255,255,255,0.015) 40px,rgba(255,255,255,0.015) 41px),repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(255,255,255,0.015) 40px,rgba(255,255,255,0.015) 41px)}
+.map-hero-inner{position:relative;z-index:1;padding-bottom:36px}
+.map-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,7vw,84px);letter-spacing:0.02em;color:#fff;line-height:0.92;margin-bottom:10px}
+.map-title em{color:var(--red);font-style:normal}
+.map-subtitle{font-size:15px;color:rgba(255,255,255,0.45);max-width:540px;line-height:1.75}
+.map-live-badge{display:inline-flex;align-items:center;gap:8px;padding:5px 14px;background:rgba(193,39,45,0.15);border:1px solid rgba(193,39,45,0.3);border-radius:100px;font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--red);margin-bottom:18px}
+.map-live-dot{width:7px;height:7px;border-radius:50%;background:var(--red);animation:pulse 1.8s ease infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.3)}}
+.filter-bar{background:rgba(255,255,255,0.04);border-top:1px solid rgba(255,255,255,0.08);padding:16px 0}
+.filter-inner{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.filter-label{font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-right:4px;white-space:nowrap}
+.filter-btn{padding:7px 16px;border:1.5px solid rgba(255,255,255,0.12);border-radius:100px;font-size:12px;font-weight:600;color:rgba(255,255,255,0.45);background:transparent;cursor:pointer;transition:all 0.22s;white-space:nowrap;font-family:inherit}
+.filter-btn:hover{border-color:rgba(255,255,255,0.3);color:rgba(255,255,255,0.8)}
+.filter-btn.active{background:var(--red);border-color:var(--red);color:#fff}
+.filter-count{margin-left:auto;font-size:12px;color:rgba(255,255,255,0.2);white-space:nowrap}
+.filter-count span{color:rgba(255,255,255,0.5);font-weight:700}
+/* MAP */
+.map-container{width:100%;height:var(--map-h);position:relative;background:#1a1f2e;overflow:hidden;cursor:default}
+.map-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 30% 40%,rgba(193,39,45,0.04) 0%,transparent 50%),linear-gradient(160deg,#161b28 0%,#1a1f2e 50%,#141820 100%)}
+.map-grid{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 59px,rgba(255,255,255,0.022) 59px,rgba(255,255,255,0.022) 60px),repeating-linear-gradient(90deg,transparent,transparent 59px,rgba(255,255,255,0.022) 59px,rgba(255,255,255,0.022) 60px)}
+.map-road{position:absolute;background:rgba(255,255,255,0.06);border-radius:2px}
+.map-road.h{height:3px;left:0;right:0}.map-road.v{width:3px;top:0;bottom:0}
+.map-road.h.main{height:5px;background:rgba(255,255,255,0.09)}
+.map-road.v.main{width:5px;background:rgba(255,255,255,0.09)}
+.map-region-label{position:absolute;font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.06);pointer-events:none;user-select:none}
+/* PINS */
+.map-pin{position:absolute;transform:translate(-50%,-100%);cursor:pointer;z-index:10;transition:transform 0.25s cubic-bezier(0.34,1.56,0.64,1)}
+.map-pin:hover{transform:translate(-50%,-100%) scale(1.4);z-index:20}
+.map-pin.active{transform:translate(-50%,-100%) scale(1.5);z-index:30}
+.map-pin.pin-hidden{opacity:0;pointer-events:none}
+.pin-dot{width:12px;height:12px;border-radius:50%;border:2px solid rgba(255,255,255,0.6);transition:all 0.22s}
+.map-pin:hover .pin-dot,.map-pin.active .pin-dot{width:16px;height:16px;border-width:2.5px;border-color:#fff}
+/* Colors */
+.pin-patio .pin-dot{background:#C1272D}
+.pin-driveway .pin-dot{background:#2563EB}
+.pin-garage .pin-dot{background:#059669}
+.pin-stamped .pin-dot{background:#7C3AED}
+.pin-sidewalk .pin-dot{background:#D97706}
+/* Cluster badge */
+.pin-count{position:absolute;top:-8px;right:-8px;background:rgba(0,0,0,0.75);color:#fff;font-size:8px;font-weight:700;border-radius:100px;padding:1px 4px;display:none}
+/* LEGEND */
+.map-legend{position:absolute;top:14px;right:14px;background:rgba(13,15,22,0.88);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:14px 16px;z-index:15}
+.legend-title{font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:10px}
+.legend-item{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:11px;color:rgba(255,255,255,0.55)}
+.legend-item:last-child{margin-bottom:0}
+.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+/* MAP STATS */
+.map-stats{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(0,0,0,0.7),transparent);padding:20px 20px 16px;display:flex;gap:28px;z-index:10}
+.map-stat-num{font-family:'Bebas Neue',sans-serif;font-size:22px;color:#fff;letter-spacing:0.04em;line-height:1}
+.map-stat-num em{color:var(--red);font-style:normal}
+.map-stat-lbl{font-size:9px;color:rgba(255,255,255,0.3);letter-spacing:0.14em;text-transform:uppercase;font-weight:700}
+.map-watermark{position:absolute;bottom:16px;right:16px;font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.08)}
+/* POPUP */
+.map-popup{position:absolute;z-index:50;width:300px;background:#fff;border-radius:8px;box-shadow:0 8px 32px rgba(0,0,0,0.4),0 32px 80px rgba(0,0,0,0.3);opacity:0;transform:scale(0.92) translateY(8px);transition:all 0.28s cubic-bezier(0.34,1.2,0.64,1);pointer-events:none;overflow:hidden}
+.map-popup.visible{opacity:1;transform:scale(1) translateY(0);pointer-events:all}
+.popup-img{width:100%;height:140px;object-fit:cover;display:block}
+.popup-body{padding:16px 18px 18px}
+.popup-type-badge{display:inline-flex;align-items:center;font-size:9px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#fff;padding:3px 10px;border-radius:100px;margin-bottom:8px}
+.popup-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:0.03em;color:var(--dark);margin-bottom:6px;line-height:1.1}
+.popup-desc{font-size:12px;color:var(--muted);line-height:1.65;margin-bottom:12px}
+.popup-meta{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px;padding:10px;background:var(--bg2);border-radius:4px}
+.popup-meta-label{font-size:8px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted)}
+.popup-meta-value{font-size:12px;font-weight:700;color:var(--dark)}
+.popup-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:10px;background:var(--red);color:#fff;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;border-radius:3px;transition:background 0.22s;font-family:inherit;border:none;cursor:pointer}
+.popup-btn:hover{background:var(--red2)}
+.popup-close{position:absolute;top:8px;right:8px;width:26px;height:26px;background:rgba(0,0,0,0.5);border:none;border-radius:50%;color:#fff;font-size:13px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;transition:background 0.22s}
+.popup-close:hover{background:rgba(0,0,0,0.8)}
+/* PROJECTS GRID */
+.projects-section{background:var(--bg);padding:80px 0}
+.projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:40px}
+.proj-card{background:#fff;border:1px solid var(--border);border-radius:6px;overflow:hidden;transition:all 0.28s;cursor:pointer;box-shadow:var(--shadow-sm)}
+.proj-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--red)}
+.proj-card-img{width:100%;height:180px;object-fit:cover;background:var(--bg3)}
+.proj-card-body{padding:18px}
+.proj-card-type{display:inline-flex;font-size:9px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#fff;padding:3px 10px;border-radius:100px;margin-bottom:8px}
+.proj-card-title{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:0.03em;color:var(--dark);margin-bottom:5px}
+.proj-card-desc{font-size:12px;color:var(--muted);line-height:1.65;margin-bottom:12px}
+.proj-card-meta{display:flex;gap:14px;padding-top:10px;border-top:1px solid var(--border)}
+.proj-meta-label{font-size:8px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted)}
+.proj-meta-value{font-size:12px;font-weight:700;color:var(--dark)}
+.proj-card-link{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--red);margin-top:12px}
+.proj-card-link svg{width:12px;height:12px;stroke:var(--red);fill:none;stroke-width:2;stroke-linecap:round}
+/* Pagination */
+.pagination{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:40px}
+.page-btn{padding:8px 16px;border:1.5px solid var(--border);border-radius:3px;font-size:13px;font-weight:600;color:var(--mid);background:#fff;cursor:pointer;transition:all 0.22s;font-family:inherit}
+.page-btn:hover{border-color:var(--red);color:var(--red)}
+.page-btn.active{background:var(--red);border-color:var(--red);color:#fff}
+.page-btn:disabled{opacity:0.3;cursor:default}
+/* Other services */
+.other-services-section{background:var(--bg2);padding:80px 0}
+.services-showcase{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:40px}
+.ssc{display:flex;gap:16px;padding:24px;background:#fff;border:1.5px solid var(--border);border-radius:6px;transition:all 0.28s;cursor:pointer;text-decoration:none}
+.ssc:hover{border-color:var(--red);box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.ssc.featured{grid-column:1/-1}
+.ssc-icon{width:48px;height:48px;flex-shrink:0;background:var(--bg2);border:1.5px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;transition:all 0.28s}
+.ssc-icon svg{width:22px;height:22px;stroke:var(--red);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;transition:stroke 0.28s}
+.ssc:hover .ssc-icon{background:var(--red);border-color:var(--red)}
+.ssc:hover .ssc-icon svg{stroke:#fff}
+.ssc h3{font-size:16px;font-weight:700;color:var(--dark);margin-bottom:5px}
+.ssc p{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:8px}
+.ssc-lnk{font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--red)}
+@media(max-width:1024px){.projects-grid{grid-template-columns:1fr 1fr}.services-showcase{grid-template-columns:1fr}.ssc.featured{grid-column:1}}
+@media(max-width:768px){:root{--map-h:380px}.projects-grid{grid-template-columns:1fr}.map-legend{display:none}}
+</style>
+</head>
+<body>
+<div data-nav></div>
+<div class="map-page-hero">
+  <div class="container map-hero-inner">
+    <div class="breadcrumb"><a href="index.html">Home</a><span class="breadcrumb-sep">›</span><span>Live Project Map</span></div>
+    <div class="map-live-badge"><span class="map-live-dot"></span> Live Project Map</div>
+    <h1 class="map-title">Projects Right in<br>Your <em>Neighborhood.</em></h1>
+    <p class="map-subtitle">200+ completed concrete projects across McHenry County. Click any pin to see photos and project details. Every job shown is a real local home.</p>
+  </div>
+  <div class="filter-bar">
+    <div class="container">
+      <div class="filter-inner">
+        <span class="filter-label">Filter:</span>
+        <button class="filter-btn active" onclick="filterMap('all',this)">All <span id="countAll"></span></button>
+        <button class="filter-btn" onclick="filterMap('patio',this)">Patios</button>
+        <button class="filter-btn" onclick="filterMap('driveway',this)">Driveways</button>
+        <button class="filter-btn" onclick="filterMap('garage',this)">Garage Floors</button>
+        <button class="filter-btn" onclick="filterMap('stamped',this)">Stamped</button>
+        <button class="filter-btn" onclick="filterMap('sidewalk',this)">Sidewalks</button>
+        <div class="filter-count">Showing <span id="filterCount">200</span> projects</div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- MAP -->
+<div id="mapContainer" class="map-container">
+  <div class="map-bg"></div>
+  <div class="map-grid"></div>
+  <!-- Roads -->
+  <div class="map-road h main" style="top:30%"></div>
+  <div class="map-road h" style="top:55%"></div>
+  <div class="map-road h" style="top:75%"></div>
+  <div class="map-road v main" style="left:40%"></div>
+  <div class="map-road v" style="left:65%"></div>
+  <div class="map-road v" style="left:20%"></div>
+  <div class="map-road h" style="top:18%;opacity:0.5"></div>
+  <!-- Region labels -->
+  <div class="map-region-label" style="top:10%;left:8%">CRYSTAL LAKE</div>
+  <div class="map-region-label" style="top:8%;left:52%">WOODSTOCK</div>
+  <div class="map-region-label" style="top:60%;left:8%">CARY</div>
+  <div class="map-region-label" style="top:65%;left:52%">ALGONQUIN</div>
+  <div class="map-region-label" style="top:43%;left:72%">LAKE IN THE HILLS</div>
+  <!-- Pins injected by JS -->
+  <div id="pinsContainer"></div>
+  <!-- Legend -->
+  <div class="map-legend">
+    <div class="legend-title">Project Type</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#C1272D"></div>Patio</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#2563EB"></div>Driveway</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#059669"></div>Garage Floor</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#7C3AED"></div>Stamped</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#D97706"></div>Sidewalk</div>
+  </div>
+  <!-- Stats -->
+  <div class="map-stats">
+    <div><div class="map-stat-num">200<em>+</em></div><div class="map-stat-lbl">Local Projects</div></div>
+    <div><div class="map-stat-num">5</div><div class="map-stat-lbl">Cities</div></div>
+    <div><div class="map-stat-num">15<em>+</em></div><div class="map-stat-lbl">Years</div></div>
+  </div>
+  <div class="map-watermark">McHenry County, Illinois</div>
+  <!-- Popup -->
+  <div class="map-popup" id="mapPopup">
+    <button class="popup-close" onclick="closePopup()">✕</button>
+    <img id="popupImg" class="popup-img" src="" alt="">
+    <div class="popup-body">
+      <div id="popupBadge" class="popup-type-badge"></div>
+      <div id="popupTitle" class="popup-title"></div>
+      <div id="popupDesc" class="popup-desc"></div>
+      <div class="popup-meta">
+        <div><div class="popup-meta-label">Project Size</div><div id="popupSize" class="popup-meta-value"></div></div>
+        <div><div class="popup-meta-label">Investment</div><div id="popupBudget" class="popup-meta-value"></div></div>
+      </div>
+      <button class="popup-btn" onclick="window.location.href='contact.html'">Get a Similar Quote →</button>
+    </div>
+  </div>
+</div>
+<!-- PROJECT CARDS -->
+<section class="projects-section">
+  <div class="container">
+    <div class="reveal">
+      <div class="tag">Completed Work</div>
+      <h2 class="h-display">Projects Right in<br>Your <em>Area</em></h2>
+      <p style="color:var(--muted);font-size:15px;margin-top:12px;max-width:480px">Real jobs at real McHenry County homes. Every project below was completed by our crew.</p>
+    </div>
+    <div class="projects-grid" id="projectsGrid"></div>
+    <div class="pagination" id="pagination"></div>
+  </div>
+</section>
+<!-- OTHER SERVICES -->
+<section class="other-services-section" id="otherServices">
+  <div class="container">
+    <div class="reveal">
+      <div class="tag">Explore Services</div>
+      <h2 class="h-display">Other Services<br>We <em>Offer</em></h2>
+    </div>
+    <div class="services-showcase" id="servicesShowcase"></div>
+  </div>
+</section>
+<div class="cta-bar"><div class="container"><div><h2>Start Your Project Today</h2><p>Free estimates · McHenry County · 24hr response</p></div><div class="cta-bar-actions"><div class="cta-bar-phone">(815) 403-7233</div><a href="contact.html" class="btn btn-white-outline">Get a Free Quote →</a></div></div></div>
+<div data-footer></div>
+<script src="shared.js"></script>
+<script src="projects-data.js"></script>
+<script>
+const TYPE_COLORS={patio:'#C1272D',driveway:'#2563EB',garage:'#059669',stamped:'#7C3AED',sidewalk:'#D97706'};
+const TYPE_LABELS={patio:'Concrete Patio',driveway:'Concrete Driveway',garage:'Garage Floor',stamped:'Stamped Concrete',sidewalk:'Sidewalk & Walkway'};
+const ALL_SERVICES=[
+  {type:'patio',title:'Concrete Patios',desc:'Standard and decorative concrete patios for outdoor living — broom, exposed aggregate, smooth, and stamped.',link:'concrete-patio.html',icon:'<svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V10l7-7 7 7v11"/><path d="M9 21v-6h6v6"/></svg>'},
+  {type:'driveway',title:'Concrete Driveways',desc:'Full driveway replacement with proper base prep, reinforcement, and IL-grade concrete for freeze-thaw durability.',link:'concrete-driveway-replacement.html',icon:'<svg viewBox="0 0 24 24"><path d="M1 12h22M5 12l4-8h6l4 8"/><rect x="3" y="12" width="18" height="4" rx="1"/></svg>'},
+  {type:'garage',title:'Garage Floors',desc:'Reinforced garage floor slabs with vapor barrier, control joints, and smooth trowel finish.',link:'concrete-pads.html',icon:'<svg viewBox="0 0 24 24"><rect x="2" y="13" width="20" height="8" rx="1"/><path d="M2 13l4-8h12l4 8"/></svg>'},
+  {type:'stamped',title:'Stamped Concrete',desc:'Decorative stamped concrete — slate, cobblestone, flagstone, and wood plank patterns for driveways and patios.',link:'stamped-concrete.html',icon:'<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>'},
+  {type:'sidewalk',title:'Sidewalks & Walkways',desc:'Front entry walkways, side walkways, and city sidewalk replacements. Broom finish, city-spec compliant.',link:'concrete-pads.html',icon:'<svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M5 8h14"/><path d="M5 16h14"/></svg>'},
+  {type:'wall',title:'Sitting & Retaining Walls',desc:'Custom concrete sitting walls and retaining walls that define outdoor spaces and manage slopes.',link:'sitting-walls.html',icon:'<svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="4" rx="1"/><rect x="2" y="13" width="20" height="4" rx="1"/></svg>'},
+];
+
+let currentFilter='all', currentPage=1;
+const PER_PAGE=12;
+
+function buildPins(filter){
+  const container=document.getElementById('pinsContainer');
+  if(!container)return;
+  container.innerHTML='';
+  const filtered=filter==='all'?ALL_PROJECTS:ALL_PROJECTS.filter(p=>p.type===filter);
+  document.getElementById('filterCount').textContent=filtered.length;
+  ALL_PROJECTS.forEach(p=>{
+    const show=filter==='all'||p.type===filter;
+    const pin=document.createElement('div');
+    pin.className=`map-pin pin-${p.type}${show?'':' pin-hidden'}`;
+    pin.style.cssText=`left:${p.x}%;top:${p.y}%`;
+    pin.dataset.id=p.id;
+    pin.innerHTML=`<div class="pin-dot"></div>`;
+    pin.onclick=()=>openPopup(p,pin);
+    container.appendChild(pin);
+  });
+}
+
+function buildCards(filter,page){
+  const grid=document.getElementById('projectsGrid');
+  if(!grid)return;
+  const filtered=filter==='all'?ALL_PROJECTS:ALL_PROJECTS.filter(p=>p.type===filter);
+  const start=(page-1)*PER_PAGE, end=start+PER_PAGE;
+  const pageItems=filtered.slice(start,end);
+  grid.innerHTML='';
+  pageItems.forEach(p=>{
+    const color=TYPE_COLORS[p.type]||'#555';
+    const card=document.createElement('div');
+    card.className='proj-card reveal';
+    card.innerHTML=`
+      <img src="${p.img}" alt="${p.title}" class="proj-card-img" loading="lazy">
+      <div class="proj-card-body">
+        <div class="proj-card-type" style="background:${color}">${TYPE_LABELS[p.type]}</div>
+        <div class="proj-card-title">${p.title}</div>
+        <p class="proj-card-desc">${p.desc}</p>
+        <div class="proj-card-meta">
+          <div><div class="proj-meta-label">Size</div><div class="proj-meta-value">${p.size}</div></div>
+          <div><div class="proj-meta-label">Investment</div><div class="proj-meta-value">${p.budget}</div></div>
+        </div>
+        <div class="proj-card-link">Get Similar Quote <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      </div>`;
+    card.onclick=()=>window.location.href='contact.html';
+    grid.appendChild(card);
+  });
+  buildPagination(filtered.length,page);
+}
+
+function buildPagination(total,page){
+  const pag=document.getElementById('pagination');
+  if(!pag)return;
+  const totalPages=Math.ceil(total/PER_PAGE);
+  if(totalPages<=1){pag.innerHTML='';return;}
+  let html='';
+  html+=`<button class="page-btn" onclick="goPage(${page-1})" ${page===1?'disabled':''}>← Prev</button>`;
+  for(let i=1;i<=totalPages;i++){
+    if(i===1||i===totalPages||Math.abs(i-page)<=2){
+      html+=`<button class="page-btn${i===page?' active':''}" onclick="goPage(${i})">${i}</button>`;
+    } else if(Math.abs(i-page)===3){
+      html+=`<span style="color:var(--muted);padding:0 4px">…</span>`;
+    }
+  }
+  html+=`<button class="page-btn" onclick="goPage(${page+1})" ${page===totalPages?'disabled':''}>Next →</button>`;
+  pag.innerHTML=html;
+}
+
+function goPage(p){
+  currentPage=p;
+  buildCards(currentFilter,p);
+  document.querySelector('.projects-section')?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function buildOtherServices(filter){
+  const showcase=document.getElementById('servicesShowcase');
+  if(!showcase)return;
+  const others=filter==='all'?ALL_SERVICES:ALL_SERVICES.filter(s=>s.type!==filter);
+  showcase.innerHTML='';
+  others.forEach((svc,i)=>{
+    const a=document.createElement('a');
+    a.href=svc.link;
+    a.className=`ssc${i===0?' featured':''}`;
+    a.innerHTML=`<div class="ssc-icon">${svc.icon}</div><div><h3>${svc.title}</h3><p>${svc.desc}</p><div class="ssc-lnk">View Service →</div></div>`;
+    showcase.appendChild(a);
+  });
+}
+
+function filterMap(filter,btn){
+  currentFilter=filter;
+  currentPage=1;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  buildPins(filter);
+  buildCards(filter,1);
+  buildOtherServices(filter);
+  closePopup();
+}
+
+function openPopup(p,pinEl){
+  document.querySelectorAll('.map-pin').forEach(e=>e.classList.remove('active'));
+  pinEl.classList.add('active');
+  const color=TYPE_COLORS[p.type]||'#555';
+  document.getElementById('popupBadge').textContent=TYPE_LABELS[p.type];
+  document.getElementById('popupBadge').style.background=color;
+  document.getElementById('popupTitle').textContent=p.title;
+  document.getElementById('popupDesc').textContent=p.desc;
+  document.getElementById('popupSize').textContent=p.size;
+  document.getElementById('popupBudget').textContent=p.budget;
+  document.getElementById('popupImg').src=p.img;
+  document.getElementById('popupImg').alt=p.title;
+  const map=document.getElementById('mapContainer');
+  const pinRect=pinEl.getBoundingClientRect();
+  const mapRect=map.getBoundingClientRect();
+  let left=pinRect.left-mapRect.left-150;
+  let top=pinRect.top-mapRect.top-260;
+  left=Math.max(10,Math.min(left,mapRect.width-310));
+  top=Math.max(10,Math.min(top,mapRect.height-340));
+  const popup=document.getElementById('mapPopup');
+  popup.style.left=left+'px';
+  popup.style.top=top+'px';
+  popup.classList.add('visible');
+}
+
+function closePopup(){
+  document.getElementById('mapPopup')?.classList.remove('visible');
+  document.querySelectorAll('.map-pin').forEach(e=>e.classList.remove('active'));
+}
+
+document.getElementById('mapContainer')?.addEventListener('click',e=>{
+  if(!e.target.closest('.map-pin')&&!e.target.closest('.map-popup'))closePopup();
+});
+
+// Init
+buildPins('all');
+buildCards('all',1);
+buildOtherServices('all');
+</script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+# Concrete Pros IL — robots.txt
+# Allow all search engine crawlers
+
+User-agent: *
+Allow: /
+
+# Major search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+# AI training & citation bots — allow for AI SEO (ChatGPT, Perplexity, Claude citations)
+User-agent: Google-Extended
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: DuckAssistBot
+Allow: /
+
+User-agent: ImagesiftBot
+Allow: /
+
+Sitemap: https://www.concreteprosil.com/sitemap.xml
